@@ -1,4 +1,9 @@
-/* CPE-2600 Lab 11: Generate Mandelbrot movie frames with child processes. */
+/* CPE-2600 Lab 11: Generate Mandelbrot movie frames with child processes. 
+* Author: Hunter Vassar
+* Section: 121
+* Date: 11/23/2026
+* Compile: make mandelmovie
+*/
 
 #include <errno.h>
 #include <math.h>
@@ -48,7 +53,6 @@ int main(int argc, char *argv[])
     int result = EXIT_SUCCESS;
 
     while (next_frame < FRAME_COUNT || active_children > 0) {
-        // Fill any available slots before waiting for a child to finish.
         while (result == EXIT_SUCCESS && next_frame < FRAME_COUNT &&
                active_children < process_limit) {
             char scale_arg[32];
@@ -77,7 +81,6 @@ int main(int argc, char *argv[])
         if (active_children == 0)
             break;
 
-        // Reap whichever child finishes first so its slot can be reused.
         int status;
         pid_t finished;
         do {
@@ -90,7 +93,6 @@ int main(int argc, char *argv[])
         }
         active_children--;
 
-        // After a failure, drain the remaining children before exiting.
         if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
             fprintf(stderr, "mandel process %ld failed\n", (long)finished);
             result = EXIT_FAILURE;
