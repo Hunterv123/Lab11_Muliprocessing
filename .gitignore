@@ -2,5 +2,7 @@
 *.o
 *.jpg
 *.mpg
+!/mandel.mpg
+/mandel.mp4
 /mandel
 /mandelmovie
